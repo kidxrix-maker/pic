@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sounds of the Sea</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eaf6fb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    color: #145374;
+    margin-bottom: 30px;
+  }
+
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .card {
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .card img {
+    width: 750px;
+    height: 600px;
+    object-fit: cover;s
+    display: block;
+  }
+  .card p {
+    margin: 12px 0;
+    font-weight: bold;
+    color: #145374;
+  }
+
+  .playing img {
+    outline: 4px solid #ff8c42;
+  }
+</style>
+</head>
+<body>
+
+<div class="gallery">
+
+  <div class="card" id="card-beach" onclick="playSound('beach')">
+    <img src="beach.jpg" alt="Beach">
+    <p>Beach</p>
+  </div>
+
+  <div class="card" id="card-seagull" onclick="playSound('seagull')">
+    <img src="seagull.jpg" alt="Seagull">
+    <p>Seagull</p>
+  </div>
+
+  <div class="card" id="card-dolphin" onclick="playSound('dolphin')">
+    <img src="dolphin.jpg" alt="Dolphin">
+    <p>Dolphin</p>
+  </div>
+
+</div>
+
+<!-- Hidden audio elements, one per sound -->
+<audio id="audio-beach" src="beach.mp3"></audio>
+<audio id="audio-seagull" src="seagull.mp3"></audio>
+<audio id="audio-dolphin" src="dolphin.mp3"></audio>
+
+<script>
+  // Stop all sounds and remove the "playing" highlight from all cards
+  function stopAll() {
+    document.querySelectorAll('audio').forEach(a => {
+      a.pause();
+      a.currentTime = 0;
+    });
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('playing'));
+  }
+
+  function playSound(name) {
+    const audio = document.getElementById('audio-' + name);
+    const card = document.getElementById('card-' + name);
+    const isPlaying = !audio.paused;
+
+    stopAll();
+
+    // If it wasn't already playing, start it. If it was, this click just stops it (toggle).
+    if (!isPlaying) {
+      audio.play();
+      card.classList.add('playing');
+      audio.onended = () => card.classList.remove('playing');
+    }
+  }
+</script>
+
+</body>
+</html>
